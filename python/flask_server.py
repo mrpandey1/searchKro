@@ -1,30 +1,41 @@
 from flask import Flask, jsonify, request
-import people_also_ask , praw
+import people_also_ask
 from flask_cors import CORS
+
+from helper import rebbit,rapid_rewrite,ginger_rewrite
 
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/')
 def data():
-    query = request.args.get('query','',type=str)
+    query = request.args.get('query', '', type=str)
     output = []
     op = people_also_ask.get_related_questions(query)
     for o in op:
         output.append(o)
         for p in people_also_ask.get_related_questions(o):
             output.append(p)
-    if output==[]: output = rebbit(query)
-    return jsonify({"response" :list(set(output))})
+    if output == []:
+        output = rebbit(query)
+    return jsonify({"response": list(set(output))})
 
-def rebbit(query):
-    # query = request.args.get('query','',type=str)
-    reddit_client_id = "wyciBnH1ZUiTww"
-    reddit_client_secret = "pR-MXV3mH9JFRDHAGG7nfttbQBsTrQ"
-    reddit_username = "0captainlevi"
-    reddit_password = "qwerty1234"
-    reddit = praw.Reddit(user_agent="Mozilla",
-                     client_id=reddit_client_id, client_secret=reddit_client_secret,
-                     username=reddit_username, password=reddit_password)
-    op = [s.title for s in reddit.subreddit("AskReddit").search(query)][:10]
-    return op
+
+@app.route('/rewrite/')
+def rewrite():
+    query = request.args.get('query', '', type=str)
+    output = []
+
+    # Rapid API
+    x = rapid_rewrite(query)
+    if x!=query:
+        output.append(x)
+    
+    # Ginger Software
+    output += ginger_rewrite(query)
+
+    return jsonify({"response": list(set(output))})
+
+if __name__ == '__main__':
+    app.run(debug=True)
