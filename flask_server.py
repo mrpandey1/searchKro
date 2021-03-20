@@ -10,9 +10,14 @@ def home():
 @app.route('/google/')
 def google():
     query = request.args.get('query','',type=str)
+    output = []
     op = people_also_ask.get_related_questions(query)
+    for o in op:
+        output.append(o)
+        for p in people_also_ask.get_related_questions(o):
+            output.append(p)
 
-    return jsonify(op)
+    return jsonify({"response" :list(set(output))})
 
 
 @app.route('/reddit/')
@@ -25,5 +30,5 @@ def rebbit():
     reddit = praw.Reddit(user_agent="Mozilla",
                      client_id=reddit_client_id, client_secret=reddit_client_secret,
                      username=reddit_username, password=reddit_password)
-
-    return '\n'.join([s.title for s in reddit.subreddit("AskReddit").search(query)])
+    op = [s.title for s in reddit.subreddit("all").search(query)][:10]
+    return jsonify({"response" :op})
