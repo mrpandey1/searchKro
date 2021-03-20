@@ -8,8 +8,7 @@ job_params = {
 'scraper': 'google_search',
 'domain': 'com',
 'q': 'Mutual Fund',
-'parse': 'true',
-'num' : 10
+'parse': 'true'
 }
 
 response = requests.post(

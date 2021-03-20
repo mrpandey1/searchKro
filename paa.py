@@ -1,5 +1,9 @@
 import people_also_ask
 
-x = people_also_ask.get_related_questions("Mutual Fund",99)
+x = people_also_ask.get_related_questions("UPSC")
 
-print(x)
+for i in x:
+    print(i)
+    for j in people_also_ask.get_related_questions(i):
+        print(j)
+
