@@ -1,7 +1,7 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file, make_response
 import people_also_ask
 from flask_cors import CORS
-
+import pandas as pd
 from helper import rebbit, rapid_rewrite, ginger_rewrite, clusterz
 
 app = Flask(__name__)
@@ -11,6 +11,7 @@ CORS(app)
 @app.route('/')
 def data():
     query = request.args.get('query', '', type=str)
+    frmt = request.args.get('format', 'json', type=str)
     output = []
     op = people_also_ask.get_related_questions(query)
     for o in op:
@@ -20,7 +21,12 @@ def data():
     if output == []:
         output = rebbit(query)
     output = list(set(output))
-
+    if frmt == "csv":
+        df = pd.DataFrame(output)
+        df.to_csv('temp.csv',header=False)
+        return send_file('/home/bhavartha/Codes/Err_404-byt3_forc3-003-searchKro/python/temp.csv', mimetype='text/csv',
+                         attachment_filename='Response.csv',
+                         as_attachment=True)
     return jsonify({"response": output, "graph": clusterz([output], query)})
 
 
