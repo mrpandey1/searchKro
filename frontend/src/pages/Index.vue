@@ -1,16 +1,13 @@
 <template>
   <q-page>
-    <div
-      id="jumbo"
-      class="q-pa-lg text-center"
-      style="width: 100vw; height: 100vh"
-    >
+    <div id="jumbo" class="q-pa-lg text-center">
       <h3>Enter Query</h3>
       <q-input
         v-model="query"
         class="q-pb-lg"
-        style="max-width: 50%; margin: auto"
+        style="max-width: 50%; margin: auto; font-size:1.3rem"
       />
+
       <q-btn
         @click="submit"
         color="primary"
@@ -24,23 +21,29 @@
         </template>
       </q-btn>
 
-      <q-icon
+      <!-- <q-icon
         name="arrow_downward"
         v-if="questions"
         size="xl"
         class="q-pt-xl"
         style="display: block; margin: auto"
-      />
+      /> -->
     </div>
+
+    <!-- when data is available -->
     <div v-if="questions">
-      <q-btn-toggle
-        v-model="toggle_value"
-        toggle-color="primary"
-        :options="[
-          { label: 'Result', value: 'result' },
-          { label: 'Graph', value: 'graph' },
-        ]"
-      />
+      <center>
+        <h4>People also ask</h4>
+        <q-btn-toggle
+          v-model="toggle_value"
+          class="q-mb-lg"
+          toggle-color="primary"
+          :options="[
+            { label: 'Result', value: 'result' },
+            { label: 'Graph', value: 'graph' },
+          ]"
+        />
+      </center>
       <my-questions :questions="questions" v-if="toggle_value == 'result'" />
       <my-graph :tree="graph" v-else />
     </div>
@@ -82,5 +85,6 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+  
 </style>

@@ -1,15 +1,16 @@
 <template>
-  <div id="googleRes" v-if="questions" class="text-center">
-    <div v-for="(g, index) in questions" :key="index">
+  <div id="questions row" v-if="questions" class="text-center q-mb-xl">
+    <div v-for="(g, index) in questions" :key="index" class="q-pt-sm">
       <q-chip
         clickable
         outline
         square
-        color="deep-orange"
+        color="light-blue-9"
+        class="q-py-lg"
         text-color="white"
         @click="getParaphrase(g)"
       >
-        {{ g }}
+        <span style="font-size: 1.2rem">{{ g }} </span>
       </q-chip>
     </div>
     <q-dialog v-model="paraphrasing_available" persistent>

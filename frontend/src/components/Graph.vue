@@ -1,5 +1,9 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
+  <div
+    class="q-pa-md q-gutter-sm"
+    id="graph"
+    style="max-width: 600px; margin: 0 auto"
+  >
     <q-input ref="filter" filled v-model="filter" label="Filter">
       <template v-slot:append>
         <q-icon
@@ -10,13 +14,13 @@
         />
       </template>
     </q-input>
-
-    <q-tree
-      :nodes="[tree]"
-      node-key="label"
-      :filter="filter"
-      default-expand-all
-    />
+    <div id="qtree" class="q-mb-lg">
+      <q-tree
+        :nodes="[tree]"
+        node-key="label"
+        :filter="filter"
+      />
+    </div>
   </div>
 </template>
 
@@ -36,3 +40,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+* {
+  font-size: 107%;
+}
+</style>
