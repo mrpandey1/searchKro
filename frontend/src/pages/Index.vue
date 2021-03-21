@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div id="jumbo" class="q-pa-lg text-center">
-      <h3>Enter Query</h3>
+      <h3>Ask Me Something</h3>
       <q-input
         v-model="query"
         class="q-pb-lg"

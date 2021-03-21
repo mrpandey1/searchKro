@@ -8,17 +8,13 @@
         color="light-blue-9"
         class="q-py-lg"
         text-color="white"
-        @click="getParaphrase(g)"
+        @click="paraphrasing_query=g;showDialog = true"
       >
         <span style="font-size: 1.2rem">{{ g }} </span>
       </q-chip>
     </div>
-    <q-dialog v-model="paraphrasing_available" persistent>
-      <my-popup
-        @close="reset"
-        :data="paraphrasing_data"
-        :query="paraphrasing_query"
-      />
+    <q-dialog v-model="showDialog" persistent>
+      <my-popup :query="paraphrasing_query" @close="showDialog = false" />
     </q-dialog>
   </div>
 </template>
@@ -31,25 +27,11 @@ export default {
   },
   data() {
     return {
-      paraphrasing_available: false,
-      paraphrasing_data: null,
       paraphrasing_query: "",
+      showDialog: false,
     };
   },
-  methods: {
-    reset() {
-      console.log("closed");
-    },
-    async getParaphrase(query) {
-      this.paraphrasing_query = query;
-      const para = await this.$axios.get(
-        `http://localhost:5000/rewrite/?query=${query}`
-      );
-      this.paraphrasing_data = para.data.response;
-      console.log(this.paraphrasing_data);
-      this.paraphrasing_available = para.data != null;
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss" scoped>
