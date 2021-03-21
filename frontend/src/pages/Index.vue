@@ -32,8 +32,18 @@
         style="display: block; margin: auto"
       />
     </div>
-    <my-questions :questions="questions" />
-    <my-graph :tree="graph" />
+    <div v-if="questions">
+      <q-btn-toggle
+        v-model="toggle_value"
+        toggle-color="primary"
+        :options="[
+          { label: 'Result', value: 'result' },
+          { label: 'Graph', value: 'graph' },
+        ]"
+      />
+      <my-questions :questions="questions" v-if="toggle_value == 'result'" />
+      <my-graph :tree="graph" v-else />
+    </div>
   </q-page>
 </template>
 
@@ -46,30 +56,13 @@ export default {
   data() {
     return {
       query: "",
-      paraphrasing_available: false,
-      paraphrasing_data: null,
-      paraphrasing_query: "",
       loading: false,
       questions: null,
       graph: null,
+      toggle_value: "result",
     };
   },
   methods: {
-    reset() {
-      console.log("closed");
-    },
-    openUrl(url) {
-      window.open("https://www.google.com/search?q=" + url, "_blank");
-    },
-    async getParashrase(query) {
-      this.paraphrasing_query = query;
-      const para = await this.$axios.get(
-        `http://localhost:5000/rewrite/?query=${query}`
-      );
-      this.paraphrasing_data = para.data.response;
-      console.log(this.paraphrasing_data);
-      this.paraphrasing_available = para.data != null;
-    },
     async submit() {
       try {
         this.questions = null;
@@ -80,8 +73,8 @@ export default {
         this.questions = res.data.response;
         this.graph = res.data.graph;
         this.loading = false;
-        console.log(this.questions);
-        console.log(this.graph);
+        // console.log(this.questions);
+        // console.log(this.graph);
       } catch (e) {
         alert(e);
       }

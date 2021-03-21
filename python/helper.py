@@ -73,61 +73,61 @@ def ginger_rewrite(query):
 def changeFormat(data,query):
     output = dict()
     # print(data)
-    output["name"] = query
+    output["label"] = query
     children = []
     for i in range(1, 6):
         name = f"Cluster {i}"
-        o = [{"name": _} for _ in data[i]]
+        o = [{"label": _} for _ in data[i]]
         # print(o)
-        children.append({"name": name, "children": o})
+        children.append({"label": name, "children": o})
 
     output["children"] = children
     # print(output)
     return output
 
 
-x = {
-    "query": "Apple",
-    "1": [
-        "What is the origin of the English word apple?"
-    ],
-    "2": [
-        "Why do people buy Apple products?",
-        "Why Apple products are getting so expensive?",
-        "Are Apple products worth the money?",
-        "Are Apple products overpriced?"
-    ],
-    "3": [
-        "What does apples mean in slang?"
-    ],
-    "4": [
-        "Whats does Apple mean?",
-        "What does Apple mean in a relationship?",
-        "What does the Apple mean sexually?"
-    ],
-    "5": [
-        "Why is Apple stuff so expensive?",
-        "Is Apple a waste of money?",
-        "Why is Apple so famous?",
-        "What is so special about Apple phones?",
-        "What makes Apple unique?",
-        "What Apple will release in 2020?",
-        "What is Apple best known for?"
-    ]
-}
+# x = {
+#     "query": "Apple",
+#     "1": [
+#         "What is the origin of the English word apple?"
+#     ],
+#     "2": [
+#         "Why do people buy Apple products?",
+#         "Why Apple products are getting so expensive?",
+#         "Are Apple products worth the money?",
+#         "Are Apple products overpriced?"
+#     ],
+#     "3": [
+#         "What does apples mean in slang?"
+#     ],
+#     "4": [
+#         "Whats does Apple mean?",
+#         "What does Apple mean in a relationship?",
+#         "What does the Apple mean sexually?"
+#     ],
+#     "5": [
+#         "Why is Apple stuff so expensive?",
+#         "Is Apple a waste of money?",
+#         "Why is Apple so famous?",
+#         "What is so special about Apple phones?",
+#         "What makes Apple unique?",
+#         "What Apple will release in 2020?",
+#         "What is Apple best known for?"
+#     ]
+# }
 
 # changeFormat(x)
 
-response_array = [[
-    "What is Elon Musk's IQ?", 
-    "How did Elon get rich?", 
-    "Why is Elon so rich?", 
-    "How is Elon Musk the richest person in the world?", 
-    "What makes Elon Musk a good leader?", 
-    "How Elon Musk changed the world?", 
-    "Why Elon Musk is famous?", 
-    "What is interesting about Elon Musk?", 
-    "Is Elon Musk a millionaire or billionaire?"
-  ]]
+# response_array = [[
+#     "What is Elon Musk's IQ?", 
+#     "How did Elon get rich?", 
+#     "Why is Elon so rich?", 
+#     "How is Elon Musk the richest person in the world?", 
+#     "What makes Elon Musk a good leader?", 
+#     "How Elon Musk changed the world?", 
+#     "Why Elon Musk is famous?", 
+#     "What is interesting about Elon Musk?", 
+#     "Is Elon Musk a millionaire or billionaire?"
+#   ]]
 
 # clusterz(response_array,"Elon")

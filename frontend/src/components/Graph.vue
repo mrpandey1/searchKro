@@ -1,54 +1,38 @@
 <template>
-  <div>
-    <tree
-      :data="tree"
-      node-text="name"
-      layoutType="horizontal"
-      :duration="750"
-      style="max-height: 500px"
-    >
-    </tree>
-    <q-dialog v-model="paraphrasing_available" persistent>
-      <my-popup
-        @close="reset"
-        :data="paraphrasing_data"
-        :query="paraphrasing_query"
-      />
-    </q-dialog>
+  <div class="q-pa-md q-gutter-sm">
+    <q-input ref="filter" filled v-model="filter" label="Filter">
+      <template v-slot:append>
+        <q-icon
+          v-if="filter !== ''"
+          name="clear"
+          class="cursor-pointer"
+          @click="resetFilter"
+        />
+      </template>
+    </q-input>
+
+    <q-tree
+      :nodes="[tree]"
+      node-key="label"
+      :filter="filter"
+      default-expand-all
+    />
   </div>
 </template>
 
 <script>
-import { tree } from "vued3tree";
-
 export default {
   props: ["tree"],
-  components: {
-    tree,
-    "my-popup": require("components/PopUp").default,
-  },
   data() {
     return {
-      paraphrasing_available: false,
-      paraphrasing_data: null,
-      paraphrasing_query: "",
+      filter: "",
     };
   },
   methods: {
-    reset() {
-      console.log("closed");
-    },
-    async getParaphrase(query) {
-      this.paraphrasing_query = query;
-      const para = await this.$axios.get(
-        `http://localhost:5000/rewrite/?query=${query}`
-      );
-      this.paraphrasing_data = para.data.response;
-      console.log(this.paraphrasing_data);
-      this.paraphrasing_available = para.data != null;
+    resetFilter() {
+      this.filter = "";
+      this.$refs.filter.focus();
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-</style>
