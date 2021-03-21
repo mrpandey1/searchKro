@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import people_also_ask
 from flask_cors import CORS
 
-from helper import rebbit,rapid_rewrite,ginger_rewrite
+from helper import rebbit, rapid_rewrite, ginger_rewrite, clusterz
 
 app = Flask(__name__)
 CORS(app)
@@ -19,7 +19,9 @@ def data():
             output.append(p)
     if output == []:
         output = rebbit(query)
-    return jsonify({"response": list(set(output))})
+    output = list(set(output))
+
+    return jsonify({"response": output, "graph": clusterz([output], query)})
 
 
 @app.route('/rewrite/')
@@ -29,13 +31,14 @@ def rewrite():
 
     # Rapid API
     x = rapid_rewrite(query)
-    if x!=query:
+    if x != query:
         output.append(x)
-    
+
     # Ginger Software
     output += ginger_rewrite(query)
 
     return jsonify({"response": list(set(output))})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

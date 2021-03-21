@@ -26,49 +26,62 @@
 
       <q-icon
         name="arrow_downward"
-        v-if="google_data"
+        v-if="questions"
         size="xl"
         class="q-pt-xl"
         style="display: block; margin: auto"
       />
     </div>
-
-    <div id="googleRes" v-if="google_data" class="text-center">
-      <q-separator class="q-mb-xl" />
-      <h3>Top related queries</h3>
-      <div v-for="(g, index) in google_data" :key="index">
-        <q-chip clickable outline square color="deep-orange" text-color="white" @click="openUrl(g)">
-          {{ g }}
-        </q-chip>
-      </div>
-    </div>
-    <div class="q-mb-md"></div>
+    <my-questions :questions="questions" />
+    <my-graph :tree="graph" />
   </q-page>
 </template>
 
 <script>
 export default {
+  components: {
+    "my-graph": require("components/Graph").default,
+    "my-questions": require("components/Questions").default,
+  },
   data() {
     return {
       query: "",
+      paraphrasing_available: false,
+      paraphrasing_data: null,
+      paraphrasing_query: "",
       loading: false,
-      google_data: null,
+      questions: null,
+      graph: null,
     };
   },
   methods: {
+    reset() {
+      console.log("closed");
+    },
     openUrl(url) {
-      window.open("https://www.google.com/search?q="+url, "_blank");
+      window.open("https://www.google.com/search?q=" + url, "_blank");
+    },
+    async getParashrase(query) {
+      this.paraphrasing_query = query;
+      const para = await this.$axios.get(
+        `http://localhost:5000/rewrite/?query=${query}`
+      );
+      this.paraphrasing_data = para.data.response;
+      console.log(this.paraphrasing_data);
+      this.paraphrasing_available = para.data != null;
     },
     async submit() {
       try {
-        this.google_data = null
+        this.questions = null;
         this.loading = true;
-        const google_res = await this.$axios.get(
+        const res = await this.$axios.get(
           `http://localhost:5000/?query=${this.query}`
         );
-        console.log(google_res.data);
-        this.google_data = google_res.data.response;
+        this.questions = res.data.response;
+        this.graph = res.data.graph;
         this.loading = false;
+        console.log(this.questions);
+        console.log(this.graph);
       } catch (e) {
         alert(e);
       }
@@ -77,8 +90,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-  html{
-    overflow-x: hidden;
-  }
 </style>
