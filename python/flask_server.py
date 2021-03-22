@@ -22,9 +22,10 @@ def data():
         output = rebbit(query)
     output = list(set(output))
     if frmt == "csv":
+        path = "<path to temp.csv file>"
         df = pd.DataFrame(output)
         df.to_csv('temp.csv',header=False)
-        return send_file('/home/bhavartha/Codes/Err_404-byt3_forc3-003-searchKro/python/temp.csv', mimetype='text/csv',
+        return send_file(path, mimetype='text/csv',
                          attachment_filename='Response.csv',
                          as_attachment=True)
     return jsonify({"response": output, "graph": clusterz([output], query)})

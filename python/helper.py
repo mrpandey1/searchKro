@@ -42,7 +42,7 @@ def rapid_rewrite(query):
     })
     headers = {
         'useQueryString': 'true',
-        'x-rapidapi-key': 'f545c18230msh642a4a120a7330ep199ac8jsn3254cf995ae4',
+        'x-rapidapi-key': '<api-key>',
         'x-rapidapi-host': 'rewriter-paraphraser-text-changer-multi-language.p.rapidapi.com',
         'Content-Type': 'application/json'
     }
@@ -52,10 +52,10 @@ def rapid_rewrite(query):
 
 def rebbit(query):
     # query = request.args.get('query','',type=str)
-    reddit_client_id = "wyciBnH1ZUiTww"
-    reddit_client_secret = "pR-MXV3mH9JFRDHAGG7nfttbQBsTrQ"
-    reddit_username = "0captainlevi"
-    reddit_password = "qwerty1234"
+    reddit_client_id = "<client_id>"
+    reddit_client_secret = "<client_secret>"
+    reddit_username = "<username>"
+    reddit_password = "<password>"
     reddit = praw.Reddit(user_agent="Mozilla",
                          client_id=reddit_client_id, client_secret=reddit_client_secret,
                          username=reddit_username, password=reddit_password)
@@ -85,49 +85,3 @@ def changeFormat(data,query):
     # print(output)
     return output
 
-
-# x = {
-#     "query": "Apple",
-#     "1": [
-#         "What is the origin of the English word apple?"
-#     ],
-#     "2": [
-#         "Why do people buy Apple products?",
-#         "Why Apple products are getting so expensive?",
-#         "Are Apple products worth the money?",
-#         "Are Apple products overpriced?"
-#     ],
-#     "3": [
-#         "What does apples mean in slang?"
-#     ],
-#     "4": [
-#         "Whats does Apple mean?",
-#         "What does Apple mean in a relationship?",
-#         "What does the Apple mean sexually?"
-#     ],
-#     "5": [
-#         "Why is Apple stuff so expensive?",
-#         "Is Apple a waste of money?",
-#         "Why is Apple so famous?",
-#         "What is so special about Apple phones?",
-#         "What makes Apple unique?",
-#         "What Apple will release in 2020?",
-#         "What is Apple best known for?"
-#     ]
-# }
-
-# changeFormat(x)
-
-# response_array = [[
-#     "What is Elon Musk's IQ?", 
-#     "How did Elon get rich?", 
-#     "Why is Elon so rich?", 
-#     "How is Elon Musk the richest person in the world?", 
-#     "What makes Elon Musk a good leader?", 
-#     "How Elon Musk changed the world?", 
-#     "Why Elon Musk is famous?", 
-#     "What is interesting about Elon Musk?", 
-#     "Is Elon Musk a millionaire or billionaire?"
-#   ]]
-
-# clusterz(response_array,"Elon")
