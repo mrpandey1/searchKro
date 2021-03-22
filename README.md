@@ -1,1 +1,1 @@
-# 50% Completed
+# Completed
