@@ -5,4 +5,4 @@ API LINK -
 
 http://searchkaro.pythonanywhere.com/?query=STRING
 
-http://searchkaro.pythonanywhere.com/?query=STRING?format=csv  format argument is optional
+http://searchkaro.pythonanywhere.com/?query=STRING&?format=csv  format argument is optional
