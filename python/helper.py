@@ -5,31 +5,53 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import MiniBatchKMeans, KMeans
 import numpy as np
 import pandas as pd
+from requests_html import HTMLSession
+session = HTMLSession()
 
-
+from requests_html import HTMLSession
+session = HTMLSession()
+def scrape_from_quora(query,url = 'https://www.quora.com/search/?q='):
+    print('HEy')
+    url+=query
+    print('HEy')
+    r = session.get(url)
+    print('HEy')
+    r.html.render(sleep=1, keep_page=True, scrolldown=1, timeout=60)
+    print('HEy')
+    a_tags = r.html.find('div.puppeteer_test_question_title')
+    print('HEy')
+    a_tags = [a.text for a in a_tags]
+    print('HEy')
+    return a_tags
 def clusterz(response_array,query):
-    arr = np.asarray(response_array)
-    df = pd.DataFrame(arr)
-    df = df.T
-    df.columns = ['questions']
-    df = df.iloc[1:]
-    vector = TfidfVectorizer(stop_words='english', ngram_range=(1, 3))
-    vector.fit(df.questions.values)
-    features = vector.transform(df.questions.values)
+    try:
+        arr = np.asarray(response_array)
+        df = pd.DataFrame(arr)
+        df = df.T
+        df.columns = ['questions']
+        df = df.iloc[1:]
+        vector = TfidfVectorizer(stop_words='english', ngram_range=(1, 3))
+        vector.fit(df.questions.values)
+        features = vector.transform(df.questions.values)
+        if len(response_array[0])>10:
+            num_of_clusters=5
+        else:
+            num_of_clusters=2
+        cluster = KMeans(init='k-means++', n_clusters=num_of_clusters, n_init=10)
+        cluster.fit(features)
+        df['Cluster Labels'] = cluster.labels_  
+        def give_me_clusters(df, num_of_clusters):
+            dict = {}
+            for i in range(0, num_of_clusters):
+                dict[i+1] = list(df.loc[df['Cluster Labels'] == i]['questions'].values)
+            return dict
 
-    cluster = KMeans(init='k-means++', n_clusters=5, n_init=10)
-    cluster.fit(features)
-    df['Cluster Labels'] = cluster.labels_
+        cls = give_me_clusters(df, 5)
+        cls = changeFormat(cls,query)
+        return cls
+    except:
+        return {}
 
-    def give_me_clusters(df, num_of_clusters):
-        dict = {}
-        for i in range(0, num_of_clusters):
-            dict[i+1] = list(df.loc[df['Cluster Labels'] == i]['questions'].values)
-        return dict
-
-    cls = give_me_clusters(df, 5)
-    cls = changeFormat(cls,query)
-    return cls
 
 
 def rapid_rewrite(query):
@@ -52,23 +74,30 @@ def rapid_rewrite(query):
 
 def rebbit(query):
     # query = request.args.get('query','',type=str)
-    reddit_client_id = "<client_id>"
-    reddit_client_secret = "<client_secret>"
-    reddit_username = "<username>"
-    reddit_password = "<password>"
-    reddit = praw.Reddit(user_agent="Mozilla",
-                         client_id=reddit_client_id, client_secret=reddit_client_secret,
-                         username=reddit_username, password=reddit_password)
-    op = [s.title for s in reddit.subreddit("AskReddit").search(query)][:10]
-    return op
-
+    try:
+        reddit_client_id = "wyciBnH1ZUiTww"
+        reddit_client_secret = "pR-MXV3mH9JFRDHAGG7nfttbQBsTrQ"
+        reddit_username = "0captainlevi"
+        reddit_password = "qwerty1234"
+        reddit = praw.Reddit(user_agent="Mozilla",
+                            client_id=reddit_client_id, client_secret=reddit_client_secret,
+                            username=reddit_username, password=reddit_password)
+        op = [s.title for s in reddit.subreddit("AskReddit").search(query)]
+        if len(op)>10:
+            return op[:10]
+        else:
+            return op
+    except:
+        return []
 
 def ginger_rewrite(query):
-    url = f"https://rephrasesrv.gingersoftware.com/Rephrase/secured/rephrase?apiKey=GingerWebsite&clientVersion=2.0&lang=en&s={query}&size=5"
-    response = requests.get(url)
-    res = json.loads(response.text)["Sentences"]
-    return [r["Sentence"] for r in res]
-
+    try:
+        url = f"https://rephrasesrv.gingersoftware.com/Rephrase/secured/rephrase?apiKey=GingerWebsite&clientVersion=2.0&lang=en&s={query}&size=5"
+        response = requests.get(url)
+        res = json.loads(response.text)["Sentences"]
+        return [r["Sentence"] for r in res]
+    except:
+        return ['YOU have exhausted your rephrasing limit']
 
 def changeFormat(data,query):
     output = dict()

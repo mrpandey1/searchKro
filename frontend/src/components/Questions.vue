@@ -1,5 +1,5 @@
 <template>
-  <div id="questions row" v-if="questions" class="text-center q-mb-xl">
+  <div id="questions row" v-if="questions" class="text-center q-mb-xls">
     <div v-for="(g, index) in questions" :key="index" class="q-pt-sm">
       <q-chip
         clickable

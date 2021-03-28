@@ -31,7 +31,7 @@
     </div>
 
     <!-- when data is available -->
-    <div v-if="questions">
+    <div v-if="questions!=null">
       <center>
         <h4>People also ask</h4>
         <q-btn-toggle
