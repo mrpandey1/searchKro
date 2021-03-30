@@ -8,21 +8,6 @@ import pandas as pd
 from requests_html import HTMLSession
 session = HTMLSession()
 
-from requests_html import HTMLSession
-session = HTMLSession()
-def scrape_from_quora(query,url = 'https://www.quora.com/search/?q='):
-    print('HEy')
-    url+=query
-    print('HEy')
-    r = session.get(url)
-    print('HEy')
-    r.html.render(sleep=1, keep_page=True, scrolldown=1, timeout=60)
-    print('HEy')
-    a_tags = r.html.find('div.puppeteer_test_question_title')
-    print('HEy')
-    a_tags = [a.text for a in a_tags]
-    print('HEy')
-    return a_tags
 def clusterz(response_array,query):
     try:
         arr = np.asarray(response_array)
@@ -33,8 +18,12 @@ def clusterz(response_array,query):
         vector = TfidfVectorizer(stop_words='english', ngram_range=(1, 3))
         vector.fit(df.questions.values)
         features = vector.transform(df.questions.values)
-        if len(response_array[0])>10:
+        if len(response_array[0])>=10:
             num_of_clusters=5
+        elif len(response_array[0])>5:
+            num_of_clusters=3
+        elif len(response_array[0])==1:
+            num_of_clusters=1
         else:
             num_of_clusters=2
         cluster = KMeans(init='k-means++', n_clusters=num_of_clusters, n_init=10)

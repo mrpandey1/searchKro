@@ -59,11 +59,11 @@ export default {
       this.$emit("close");
     },
     async getParaphrase() {
-      const url = `http://localhost:5000/rewrite/?query=${this.query}`;
-      console.log(url);
+      const url = `http://localhost:8000/rewrite?query=${this.query}`;
+      // console.log(url);
       const para = await this.$axios.get(url);
       this.paraphrasing_data = para.data.response;
-      console.log(this.paraphrasing_data);
+      // console.log(this.paraphrasing_data);
       this.paraphrasing_available = para.data != null;
     },
   },

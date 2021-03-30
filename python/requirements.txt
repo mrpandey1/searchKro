@@ -1,0 +1,4 @@
+fastapi
+requests_html
+people_also_ask
+uvicorn

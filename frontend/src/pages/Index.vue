@@ -71,7 +71,7 @@ export default {
         this.questions = null;
         this.loading = true;
         const res = await this.$axios.get(
-          `http://localhost:5000/?query=${this.query}`
+          `http://localhost:8000/api/quora?query=${this.query}`
         );
         this.questions = res.data.response;
         this.graph = res.data.graph;

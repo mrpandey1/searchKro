@@ -10,7 +10,7 @@
         text-color="white"
         @click="paraphrasing_query=g;showDialog = true"
       >
-        <span style="font-size: 1.2rem">{{ g }} </span>
+        <span style="font-size: 1.2rem;">{{ g.length > 100 ? g.slice(0,100)+'...':g.slice(0,100)}} </span>
       </q-chip>
     </div>
     <q-dialog v-model="showDialog" persistent>
