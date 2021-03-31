@@ -35,7 +35,8 @@ async def read_user_item(query: str):
 		# if len(output)<12:
 		# 	op=rebbit(query)
 		# 	output.append(op)
-	except:
+	except Exception as e:
+		print("Error", e)
 		return {"resonse":[],"graph":[]}
 	# print(output)
 	# return jsonify({"response": output, "graph": clusterz([output], query),"tags":a_tags})
