@@ -35,10 +35,9 @@ async def read_user_item(query: str):
 		# if len(output)<12:
 		# 	op=rebbit(query)
 		# 	output.append(op)
-	except:
+	except Exception as e:
+		print(e)
 		return {"resonse":[],"graph":[]}
-	# print(output)
-	# return jsonify({"response": output, "graph": clusterz([output], query),"tags":a_tags})
 	return {"response":output, "graph": clusterz([output], query)}
 
 @app.get("/")
@@ -53,4 +52,4 @@ async def rewrite(query:str):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
