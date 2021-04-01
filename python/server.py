@@ -36,7 +36,7 @@ async def read_user_item(query: str):
 		# 	op=rebbit(query)
 		# 	output.append(op)
 	except Exception as e:
-		print(e)
+		print("Error", e)
 		return {"resonse":[],"graph":[]}
 	return {"response":output, "graph": clusterz([output], query)}
 
@@ -52,4 +52,4 @@ async def rewrite(query:str):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
